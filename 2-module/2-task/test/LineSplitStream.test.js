@@ -1,5 +1,3 @@
-'use strict';
-
 const LineSplitStream = require('../LineSplitStream');
 const expect = require('chai').expect;
 const sinon = require('sinon');
