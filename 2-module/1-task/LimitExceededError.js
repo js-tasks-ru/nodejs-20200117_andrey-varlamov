@@ -1,5 +1,3 @@
-'use strict';
-
 class LimitExceededError extends Error {
   constructor() {
     super('Limit has been exceeded.');
