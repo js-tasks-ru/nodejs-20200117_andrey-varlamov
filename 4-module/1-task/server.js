@@ -14,12 +14,13 @@ server.on('request', (req, res) => {
   const filepath = path.join(__dirname, 'files', pathname);
   const fileToSend = fs.createReadStream(filepath);
 
+  if (path.dirname(pathname).length > 1) {
+    res.statusCode = 400;
+    res.end('статус код ответа 400');
+  }
+
   fileToSend.on('error', (e) => {
     if (e.code === 'ENOENT') {
-      if (path.dirname(pathname).length > 1) {
-        res.statusCode = 400;
-        res.end('статус код ответа 400');
-      }
       res.statusCode = 404;
       res.end('статус код ответа 404');
     }
@@ -35,7 +36,6 @@ server.on('request', (req, res) => {
       res.statusCode = 501;
       res.end('Not implemented');
   }
-
 });
 
 module.exports = server;
