@@ -30,21 +30,19 @@ server.on('request', (req, res) => {
     if (e.code === 'LIMIT_EXCEEDED') {
       res.statusCode = 413;
       res.end('LIMIT_EXCEEDED');
-    } else {
-      // console.log(e);
     }
   });
 
   writeStream.on('error', (error) => {
-    // console.log(error);
+
   });
 
   req.on('error', (error) => {
-    // console.log(error);
+
   });
 
   res.on('error', (error) => {
-    // console.log(error);
+
   });
 
   res.on('close', () => {
