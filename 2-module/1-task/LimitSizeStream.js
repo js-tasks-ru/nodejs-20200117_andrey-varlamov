@@ -17,8 +17,10 @@ class LimitSizeStream extends stream.Transform {
     if (this.buffer.length > this.limit) {
       callback(new LimitExceededError());
     } else {
-      this.push(chunk);
-      callback();
+      // вызов метода callback(null, data)
+      // посути передает дату в this.push
+      // this.push(chunk);
+      callback(null, chunk);
     }
   }
 }
