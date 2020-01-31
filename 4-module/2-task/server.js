@@ -8,6 +8,13 @@ const LimitSizeStream = require('./LimitSizeStream');
 const server = new http.Server();
 
 server.on('request', (req, res) => {
+
+  if (req.method !== 'POST') {
+    res.statusCode = 500;
+    res.end('Not implemented!');
+    return;
+  }
+
   const pathname = url.parse(req.url).pathname.slice(1);
 
   const filepath = path.join(__dirname, 'files', pathname);
@@ -56,15 +63,7 @@ server.on('request', (req, res) => {
     res.end(`${pathname} was created!`);
   });
 
-  switch (req.method) {
-    case 'POST':
-      req.pipe(limitStream).pipe(writeStream);
-      break;
-
-    default:
-      res.statusCode = 501;
-      res.end('Not implemented');
-  }
+  req.pipe(limitStream).pipe(writeStream);
 });
 
 module.exports = server;
