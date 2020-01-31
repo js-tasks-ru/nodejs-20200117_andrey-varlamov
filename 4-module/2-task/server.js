@@ -52,11 +52,16 @@ server.on('request', (req, res) => {
 
   });
 
-  res.on('close', () => {
-    if (!writeStream.writableFinished) {
-      fs.unlinkSync(filepath);
-    }
+  req.on('aborted', () => {
+    fs.unlinkSync(filepath);
+    return;
   });
+
+  // res.on('close', () => {
+  //   if (!writeStream.writableFinished) {
+  //     fs.unlinkSync(filepath);
+  //   }
+  // });
 
   writeStream.on('finish', () => {
     res.statusCode = 201;
