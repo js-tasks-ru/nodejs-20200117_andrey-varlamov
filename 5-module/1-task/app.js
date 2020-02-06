@@ -21,6 +21,7 @@ router.get('/subscribe', async (ctx, next) => {
   });
   delete subscribers[_id];
   ctx.body = message;
+  next();
 });
 
 
