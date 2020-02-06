@@ -8,7 +8,6 @@ const LimitSizeStream = require('./LimitSizeStream');
 const server = new http.Server();
 
 server.on('request', (req, res) => {
-
   if (req.method !== 'POST') {
     res.statusCode = 500;
     res.end('Not implemented!');
@@ -31,6 +30,7 @@ server.on('request', (req, res) => {
   }
 
   const writeStream = fs.createWriteStream(filepath);
+
   const limitStream = new LimitSizeStream({ limit: 1e6 });
 
   limitStream.on('error', (e) => {
@@ -40,28 +40,23 @@ server.on('request', (req, res) => {
     }
   });
 
-  writeStream.on('error', (error) => {
-
-  });
-
-  req.on('error', (error) => {
-
-  });
-
-  res.on('error', (error) => {
-
-  });
-
-  req.on('aborted', () => {
-    fs.unlinkSync(filepath);
-    return;
-  });
+  // req.on('aborted', () => {
+  //   fs.unlinkSync(filepath);
+  //   return;
+  // });
 
   // res.on('close', () => {
   //   if (!writeStream.writableFinished) {
   //     fs.unlinkSync(filepath);
   //   }
   // });
+
+  res.on('close', () => {
+    if (req.aborted) {
+      fs.unlinkSync(filepath);
+      return;
+    }
+  });
 
   writeStream.on('finish', () => {
     res.statusCode = 201;
