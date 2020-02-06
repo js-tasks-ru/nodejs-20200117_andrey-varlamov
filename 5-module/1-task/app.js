@@ -13,15 +13,11 @@ let id = 0;
 router.get('/subscribe', async (ctx, next) => {
   const _id = id;
   id++;
-  ctx.res.on('close', () => {
-    delete subscribers[_id];
-  });
   const message = await new Promise((resolve) => {
     subscribers[_id] = resolve;
   });
   delete subscribers[_id];
   ctx.body = message;
-  next();
 });
 
 

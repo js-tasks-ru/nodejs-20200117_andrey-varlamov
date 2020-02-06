@@ -7,17 +7,7 @@ const fs = require('fs');
 const LimitSizeStream = require('./LimitSizeStream');
 const server = new http.Server();
 
-const emit = server.emit;
-
 server.on('request', (req, res) => {
-  req.emit = (...args) => {
-    console.log('req event', args[0]);
-    emit.apply(req, args);
-  };
-  res.emit = (...args) => {
-    console.log('res event', args[0]);
-    emit.apply(res, args);
-  };
   if (req.method !== 'POST') {
     res.statusCode = 500;
     res.end('Not implemented!');
@@ -40,10 +30,7 @@ server.on('request', (req, res) => {
   }
 
   const writeStream = fs.createWriteStream(filepath);
-  writeStream.emit = (...args) => {
-    console.log('writeStream event', args[0]);
-    emit.apply(writeStream, args);
-  };
+
   const limitStream = new LimitSizeStream({ limit: 1e6 });
 
   limitStream.on('error', (e) => {
@@ -51,18 +38,6 @@ server.on('request', (req, res) => {
       res.statusCode = 413;
       res.end('LIMIT_EXCEEDED');
     }
-  });
-
-  writeStream.on('error', (error) => {
-
-  });
-
-  req.on('error', (error) => {
-
-  });
-
-  res.on('error', (error) => {
-
   });
 
   // req.on('aborted', () => {
