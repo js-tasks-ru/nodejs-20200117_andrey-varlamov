@@ -8,16 +8,16 @@ const Router = require('koa-router');
 const router = new Router();
 
 const subscribers = {};
-let id = 0;
 
 router.get('/subscribe', async (ctx, next) => {
-  const _id = id;
-  id++;
+  const id = ctx.request.query.r ?
+    ctx.request.query.r :
+    Math.random().toString();
   const message = await new Promise((resolve) => {
-    subscribers[_id] = resolve;
+    subscribers[id] = resolve;
   });
-  delete subscribers[_id];
   ctx.body = message;
+  delete subscribers[id];
 });
 
 
