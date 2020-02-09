@@ -1,5 +1,4 @@
-// const categoryModel = require('../models/Category.js');
-const productModel = require('../models/Product.js');
+const ProductModel = require('../models/Product.js');
 const productMapper = require('../mappers/productMapper.js');
 module.exports.productsBySubcategory = async function productsBySubcategory(ctx, next) {
   /**
@@ -17,7 +16,7 @@ module.exports.productsBySubcategory = async function productsBySubcategory(ctx,
     return next();
   }
 
-  const queryDb = await productModel.find(queryParams);
+  const queryDb = await ProductModel.find(queryParams);
 
   ctx.body = {
     products: queryDb.map(productMapper),
@@ -25,7 +24,7 @@ module.exports.productsBySubcategory = async function productsBySubcategory(ctx,
 };
 
 module.exports.productList = async function productList(ctx, next) {
-  const queryDb = await productModel.find({});
+  const queryDb = await ProductModel.find({});
 
   ctx.body = {
     products: queryDb.map(productMapper),
@@ -34,7 +33,7 @@ module.exports.productList = async function productList(ctx, next) {
 
 module.exports.productById = async function productById(ctx, next) {
   const ID = ctx.request.params;
-  const queryDb = await productModel.findById(ID);
+  const queryDb = await ProductModel.findById(ID);
   if (!queryDb) {
     ctx.throw(404, 'Product Not Found');
   }
