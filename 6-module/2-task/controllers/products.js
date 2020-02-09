@@ -1,12 +1,45 @@
+// const categoryModel = require('../models/Category.js');
+const productModel = require('../models/Product.js');
+const productMapper = require('../mappers/productMapper.js');
 module.exports.productsBySubcategory = async function productsBySubcategory(ctx, next) {
-  ctx.body = {};
+  /**
+   * /api/products
+   * /api/products?subcategory=5e3fd170015dda73df4afcbe
+   * /api/products?subcategory=5e3fd170015dda73df4afcbc
+   */
+  const ID = ctx.request.query.subcategory;
+
+  const queryParams = ID ?
+    {subcategory: ID} :
+    null;
+
+  if (!queryParams) {
+    return next();
+  }
+
+  const queryDb = await productModel.find(queryParams);
+
+  ctx.body = {
+    products: queryDb.map(productMapper),
+  };
 };
 
 module.exports.productList = async function productList(ctx, next) {
-  ctx.body = {};
+  const queryDb = await productModel.find({});
+
+  ctx.body = {
+    products: queryDb.map(productMapper),
+  };
 };
 
 module.exports.productById = async function productById(ctx, next) {
-  ctx.body = {};
+  const ID = ctx.request.params;
+  const queryDb = await productModel.findById(ID);
+  if (!queryDb) {
+    ctx.throw(404, 'Product Not Found');
+  }
+  ctx.body = {
+    product: productMapper(queryDb),
+  };
 };
 
