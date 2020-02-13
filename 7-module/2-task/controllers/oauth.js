@@ -4,7 +4,6 @@ const uuid = require('uuid/v4');
 
 module.exports.oauth = async function oauth(ctx, next) {
   const provider = ctx.params.provider;
-
   await passport.authenticate(
       provider,
       config.providers[provider].options,
@@ -25,7 +24,6 @@ module.exports.oauthCallback = async function oauthCallback(ctx, next) {
       ctx.body = {error: info};
       return;
     }
-
     const token = uuid();
 
     ctx.body = {token};
