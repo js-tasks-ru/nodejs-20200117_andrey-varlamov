@@ -11,8 +11,8 @@ module.exports = {
   },
   providers: {
     github: {
-      app_id: process.env.GITHUB_APP_ID || 'github_app_id',
-      app_secret: process.env.GITHUB_APP_SECRET || 'github_app_secret',
+      app_id: process.env.GITHUB_APP_ID || 'c49fa86f926f8acf1a99',
+      app_secret: process.env.GITHUB_APP_SECRET || 'c4b8e765b661c2aa418bdbfe7616e3d328674155',
       callback_uri: 'http://localhost:3000/oauth/github',
       options: {
         scope: ['user:email'],
