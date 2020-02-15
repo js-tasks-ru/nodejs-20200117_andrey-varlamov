@@ -12,8 +12,6 @@ module.exports = async function handleMongooseValidationError(ctx, next) {
       errors[field] = err.errors[field].message;
     }
 
-    ctx.body = {
-      errors: errors,
-    };
+    ctx.body = { errors };
   }
 };
