@@ -1,5 +1,3 @@
-'use strict';
-
 const User = require('../../models/User');
 
 module.exports = async function authenticate(strategy, email, displayName, done) {

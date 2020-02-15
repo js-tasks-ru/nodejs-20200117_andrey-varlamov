@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = [{
   email: 'user1@mail.com',
   displayName: 'user1',

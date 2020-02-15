@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports.me = async function me(ctx, next) {
   ctx.body = {
     email: ctx.user.email,

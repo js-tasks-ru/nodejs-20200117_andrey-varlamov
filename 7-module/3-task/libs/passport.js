@@ -1,5 +1,3 @@
-'use strict';
-
 const { KoaPassport } = require('koa-passport');
 const passport = new KoaPassport();
 

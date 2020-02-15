@@ -1,5 +1,3 @@
-'use strict';
-
 const passport = require('../libs/passport');
 const config = require('../config');
 

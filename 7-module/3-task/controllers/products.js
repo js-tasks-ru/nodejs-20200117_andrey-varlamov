@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports.productsBySubcategory = async function productsBySubcategory(ctx, next) {
   ctx.body = { products: [] };
 };

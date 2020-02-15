@@ -1,5 +1,3 @@
-'use strict';
-
 const passport = require('../libs/passport');
 
 module.exports.login = async function login(ctx, next) {
