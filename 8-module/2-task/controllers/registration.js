@@ -12,7 +12,6 @@ module.exports.register = async (ctx, next) => {
 
   await user.setPassword(ctx.request.body.password);
   await user.save();
-
   await sendMail({
     to: user.email,
     subject: 'Подтвердите почту',

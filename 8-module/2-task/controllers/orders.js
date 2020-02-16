@@ -6,9 +6,6 @@ const orderMapper = require('../mappers/orders');
 
 module.exports.checkout = async function checkout(ctx, next) {
   const authorizeUser = ctx.user;
-  if (!authorizeUser) {
-    ctx.throw(401);
-  }
 
   const {
     product,
@@ -28,17 +25,17 @@ module.exports.checkout = async function checkout(ctx, next) {
 
   await sendMail({
     template: 'order-confirmation',
-    locals: { product: { title: productMap.title }, id: order['_id'] },
+    locals: {product: {title: productMap.title}, id: order['_id']},
     to: authorizeUser.email,
     subject: 'Подтверждение заказа',
   });
 
-  ctx.body = { order: order['_id'] };
+  ctx.body = {order: order['_id']};
 };
 
 module.exports.getOrdersList = async function ordersList(ctx, next) {
   const user = ctx.user;
-  const orders = await Order.find({ user }).populate('product');
+  const orders = await Order.find({user}).populate('product');
 
   ctx.body = {
     orders: orders.map(orderMapper),
