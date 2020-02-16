@@ -22,27 +22,27 @@ module.exports.register = async (ctx, next) => {
 
   await sendMail({
     template: 'confirmation',
-    locals: { token },
+    locals: {token},
     to: email,
     subject: 'Подтвердите почту',
   });
 
-  ctx.body = { status: 'ok' };
+  ctx.body = {status: 'ok'};
 };
 
 module.exports.confirm = async (ctx, next) => {
   const verificationToken = ctx.request.body;
 
-  const user = await User.findOneAndUpdate(verificationToken, { $unset: verificationToken });
+  const user = await User.findOneAndUpdate(verificationToken, {$unset: verificationToken});
 
   if (!user) {
     ctx.status = 400;
-    ctx.body = { error: 'Ссылка подтверждения недействительна или устарела' };
+    ctx.body = {error: 'Ссылка подтверждения недействительна или устарела'};
     return;
   }
 
-  const resUser = await User.findOne({ email: user.email });
+  const resUser = await User.findOne({email: user.email});
   const token = await ctx.login(resUser);
 
-  ctx.body = { token };
+  ctx.body = {token};
 };
