@@ -1,3 +1,4 @@
+'use strict';
 const Koa = require('koa');
 const uuid = require('uuid/v4');
 const Router = require('koa-router');
@@ -76,8 +77,8 @@ router.get('/me', mustBeAuthenticated, me);
 router.post('/register', handleMongooseValidationError, register);
 router.post('/confirm', confirm);
 
-router.get('/orders', getOrdersList);
-router.post('/orders', checkout);
+router.get('/orders', handleMongooseValidationError, getOrdersList);
+router.post('/orders', handleMongooseValidationError, checkout);
 
 app.use(router.routes());
 
