@@ -11,42 +11,23 @@ module.exports.register = async (ctx, next) => {
     password,
   } = ctx.request.body;
 
-  try {
-    const user = new User({
-      email,
-      displayName,
-      verificationToken: token,
-    });
+  const user = new User({
+    email,
+    displayName,
+    verificationToken: token,
+  });
 
-    await user.setPassword(password);
-    await user.save();
+  await user.setPassword(password);
+  await user.save();
 
-    await sendMail({
-      template: 'confirmation',
-      locals: { token },
-      to: email,
-      subject: 'Подтвердите почту',
-    });
+  await sendMail({
+    template: 'confirmation',
+    locals: { token },
+    to: email,
+    subject: 'Подтвердите почту',
+  });
 
-    ctx.body = { status: 'ok' };
-  } catch (error) {
-    if (error.name === 'ValidationError') {
-      const errors = error.errors;
-
-      const response = {
-        errors: {},
-      };
-
-      for (const err in errors) {
-        if (errors[err]) {
-          const message = errors[err].message;
-          response.errors[err] = message;
-        }
-      }
-      ctx.status = 400;
-      ctx.body = response;
-    }
-  }
+  ctx.body = { status: 'ok' };
 };
 
 module.exports.confirm = async (ctx, next) => {
