@@ -11,9 +11,9 @@ const StubTransport = require('nodemailer-stub-transport');
 const transportEngine = process.env.NODE_ENV === 'test'
   ? new StubTransport()
   : new SMTPTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    host: 'smtp.mailgun.org',
+    port: 587,
+    secure: false,
     auth: {
       user: config.mailer.user,
       pass: config.mailer.password,
@@ -39,6 +39,7 @@ transport.use('compile', htmlToText());
 *       subject: 'Подтвердите почту',
 *     });
 * */
+
 module.exports = async function sendMail(options) {
   const html = pug.renderFile(
       path.join(__dirname, '../templates', options.template) + '.pug',
