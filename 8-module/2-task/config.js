@@ -36,7 +36,7 @@ module.exports = {
     },
   },
   mailer: {
-    user: 'postmaster@sandbox44c874eaf9a649feb3bc2379acaf9029.mailgun.org',
-    password: '574e3a4ffa670bea5996d02e22ed7ec9-52b6835e-7170bbdc',
+    user: '',
+    password: '',
   },
 };
